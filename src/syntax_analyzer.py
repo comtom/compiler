@@ -10,7 +10,7 @@ def run_syntax_analyzer():
     global output
 
     while True:
-        token = get_token().get_char()
+        token = get_token().lexeme
 
         if token == '$':
             print(output)
