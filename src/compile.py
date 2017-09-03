@@ -2,7 +2,6 @@
 """Wrapper module that calls syntax analyzer. This is neccesary in order to catch exceptions."""
 
 import sys
-import optparse
 from src.lexical_analyzer import setup
 from src.syntax_analyzer import run_syntax_analyzer
 
@@ -25,11 +24,10 @@ def main(source_file):
 
 
 if __name__ == '__main__':
-    parser = optparse.OptionParser()
-
-    source_file = ''
-    parser.add_option('-s', '--source',
-                      action="store", dest="source_file",
-                      help="source code file")
+    if len(sys.argv) == 1:
+        print("Error: Debe indicar el archivo a compilar: %s archivo_codigo_fuente.code" % __file__)
+    else:
+        with open(sys.argv[1]) as f:
+            source_file = data=f.read()
 
     sys.exit(main(source_file))
