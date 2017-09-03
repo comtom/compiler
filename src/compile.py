@@ -3,12 +3,16 @@
 
 import sys
 import optparse
+from src.lexical_analyzer import setup
 from src.syntax_analyzer import run_syntax_analyzer
 
 
 DEBUG = True
 
+
 def main(source_file):
+    setup(source_file)
+
     if DEBUG:
         run_syntax_analyzer()
     else:
@@ -27,6 +31,5 @@ if __name__ == '__main__':
     parser.add_option('-s', '--source',
                       action="store", dest="source_file",
                       help="source code file")
-
 
     sys.exit(main(source_file))

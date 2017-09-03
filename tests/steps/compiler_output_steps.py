@@ -2,17 +2,17 @@ from behave import given, when, then
 from expects import *
 
 
-@given('existe un archivo de codigo {file}')
+@given('a program source file named {file}')
 def filesource_exists(context, file):
     context.file = file
 
 
-@when('el usuario invoca al compilador con el archivo como argumento')
+@when('the user invokes the compiler with the program as an argument')
 def invoke_compiler(context):
     context.output = None   # invoke compiler
 
 
-@then('el compilador devuelve el contenido del archivo')
+@then('input program is equal to output')
 def check_output(context):
     with open(context.file, 'r') as f:
         data = f.read().replace('\n', '')
