@@ -9,7 +9,7 @@ def filesource_exists(context, file):
 
 @when('the user invokes the compiler with the program as an argument')
 def invoke_compiler(context):
-    context.output = None   # invoke compiler
+    context.output = ''   # invoke compiler
 
 
 @then('input program is equal to output')
