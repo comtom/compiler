@@ -26,6 +26,9 @@ Feature: Reserved Words
       | else a = 0                                                |
       | endif                                                     |
       | print a                                                   |
+      | while                                                     |
+      | integer                                                   |
+      | longint                                                   |
 
 
   Scenario Outline: Reserved words written in mixed case
@@ -45,3 +48,6 @@ Feature: Reserved Words
       | prinT a                                                   |
       | Print a                                                   |
       | prInT a                                                   |
+      | wHiLe                                                     |
+      | While                                                     |
+

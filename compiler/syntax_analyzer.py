@@ -1,6 +1,6 @@
 """Module that implements a syntax analyzer."""
 
-from src.lexical_analyzer import lex
+from lexical_analyzer import lex
 
 
 output = ''

@@ -1,6 +1,6 @@
 # Created by comtom at 9/3/17
 Feature: Constants
-  This tests checks that constants comply language's rules
+  This tests checks that constants comply language's rules ( between –2^15 and 2^(15–1) )
 
   Scenario: Constants with prefix
     # Enter steps here

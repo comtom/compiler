@@ -2,8 +2,8 @@
 """Wrapper module that calls syntax analyzer. This is neccesary in order to catch exceptions."""
 
 import sys
-from src.lexical_analyzer import setup
-from src.syntax_analyzer import run_syntax_analyzer
+from lexical_analyzer import setup
+from syntax_analyzer import run_syntax_analyzer
 
 
 DEBUG = True
