@@ -2,9 +2,9 @@ from behave import given, when, then
 from expects import *
 
 
-@given('a mocked source program')
-def mocked_source(context):
-    pass
+@given('a mocked source {program}')
+def mocked_source(context, program):
+    context.program = program
 
 
 @then('compiler must remove comments and accept the input')
