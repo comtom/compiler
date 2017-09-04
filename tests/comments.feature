@@ -8,10 +8,11 @@ Feature: Comments
     Then compiler must remove comments and accept the input
 
     Examples:
-      | program                                                   |
-      | ''' valid comment '''                                     |
-      | ''' valid comment #1 '''                                  |
-      | ''' valid comment #2 +\n  Other line +\n  Last line '''   |
+      | program                                                  |
+      | && valid comment \n                                      |
+      | && valid comment if \n                                   |
+      | && valid comment #1 \n                                   |
+      | && valid comment #2 \n                                   |
 
 
   Scenario Outline: Invalid comments
@@ -21,8 +22,8 @@ Feature: Comments
 
     Examples:
       | program                                                   |
-      | ''' invalid comment ''                                    |
-      | '' valid comment #0 '''                                   |
-      | ' valid comment #1 '                                      |
-      | ''' valid comment #2 \n  Other line +\n  Last line '''    |
-      | ''' valid comment #3 +\n  Other line \n  Last line '''    |
+      | && invalid comment                                        |
+      | & valid comment #0 '''                                    |
+      | /* valid comment #1 */                                    |
+      | && valid comment #2 \n  Other line +\n  Last line &&      |
+      | && valid comment #3 +\n  Other line \n  Last line         |
