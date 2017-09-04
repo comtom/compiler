@@ -2,11 +2,12 @@
 """Wrapper module that calls syntax analyzer. This is neccesary in order to catch exceptions."""
 
 import sys
+import os
 from lexical_analyzer import setup
 from syntax_analyzer import run_syntax_analyzer
 
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', False)
 
 
 def main(source_file):
