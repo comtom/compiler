@@ -1,7 +1,10 @@
 """Module that implements a syntax analyzer."""
 
 from lexical_analyzer import lex
+import ply.yacc as yacc
 
+# Get the token map from the lexer.  This is required.
+from calclex import tokens
 
 output = ''
 
