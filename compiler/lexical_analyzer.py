@@ -8,19 +8,11 @@ reserved = {
     'if': 'IF',
     'else': 'ELSE',
 
-    'for': 'FOR',
-    'in': 'IN',
+    'endif': 'ENDIF',
+
     'while': 'WHILE',
-    'exit': 'EXIT',
 
-    'fn': 'FUNCTION',
-    'ret': 'RETURN',
-
-    'say': 'PRINT',
-
-    'and': 'AND',
-    'or': 'OR',
-    'not': 'NOT',
+    'print': 'PRINT',
 }
 
 tokens = [
