@@ -1,12 +1,24 @@
 """Module that implements a syntax analyzer."""
 
-from lexical_analyzer import lex
-import ply.yacc as yacc
 
-# Get the token map from the lexer.  This is required.
-from calclex import tokens
+import ply.yacc as yacc
+from lexical_analyzer import tokens
+from lexical_analyzer import lex
+
+
+disable_warnings = False
+
+precedence = (
+    ('left', 'NOT'),
+    ('left', 'PLUS'),
+    ('left', 'MUL'),
+    ('right', 'UMINUS'),
+    ('right', 'UPLUS'),
+)
 
 output = ''
+symbol_table = {}
+
 
 
 def run_syntax_analyzer():
@@ -22,3 +34,5 @@ def run_syntax_analyzer():
         # TODO: Borrar esto, solamente para probar que la entrada es igual a la salida
         else:
             output += token
+
+    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc()

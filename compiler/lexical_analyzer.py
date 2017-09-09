@@ -7,7 +7,6 @@ import ply.lex as lex
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
-
     'endif': 'ENDIF',
 
     'while': 'WHILE',
@@ -21,7 +20,6 @@ tokens = [
     'EQUALS',
     'IDENTIFIER',
     'NUM_INT',
-    'NUM_FLOAT',
     'LPAREN',
     'RPAREN',
     'LBRACK',
@@ -32,31 +30,13 @@ tokens = [
     'LSQBRACK',
     'RSQBRACK',
     'COLON',
-    'QUESTION_MARK',
 
     'PLUS',
-    'EXP',
     'MINUS',
     'MUL',
-    'DIV',
-    'MOD',
 
     'LSHIFT',
     'RSHIFT',
-    'BIT_AND',
-    'BIT_OR',
-    'BIT_XOR',
-    'BIT_NEG',
-
-    'DOUBLE_PLUS',
-    'DOUBLE_MINUS',
-
-    'PLUS_EQ',
-    'MINUS_EQ',
-    'MUL_EQ',
-    'DIV_EQ',
-    'MOD_EQ',
-    'EXP_EQ',
 
     'TRUE',
     'FALSE',
@@ -67,20 +47,13 @@ tokens = [
     'GTE',
     'LT',
     'LTE',
-
-    'ARROW_LTR',
-    'ARROW_RTL'
 ] + list(reserved.values())
 
 t_COMMA = ','
 t_PLUS = r'\+'
-t_EXP = r'\*\*'
 t_MINUS = '-'
 t_MUL = r'\*'
-t_DIV = r'/'
-t_MOD = '%'
 t_STMT_END = ';'
-t_QUESTION_MARK = r'\?'
 t_EQUALS = '='
 t_ignore_WS = r'\s+'
 t_COLON = ':'
@@ -96,25 +69,7 @@ t_GT = '>'
 t_GTE = '>='
 t_LT = '<'
 t_LTE = '<='
-t_ARROW_LTR = '->'
-t_ARROW_RTL = '<-'
-t_ignore_COMMENTS = r'//.+'
-t_PLUS_EQ = r'\+='
-t_MINUS_EQ = r'-='
-t_MUL_EQ = r'\*='
-t_DIV_EQ = r'/='
-t_MOD_EQ = '%='
-t_EXP_EQ = '\*\*='
-
-t_RSHIFT = '>>'
-t_LSHIFT = '<<'
-t_BIT_AND = r'\&'
-t_BIT_OR = r'\|'
-t_BIT_XOR = r'\^'
-t_BIT_NEG = r'~'
-
-t_DOUBLE_PLUS = r'\+\+'
-t_DOUBLE_MINUS = '--'
+t_ignore_COMMENTS = r'&&.+'
 
 
 def t_NEWLINE(t):
