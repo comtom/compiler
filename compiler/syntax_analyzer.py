@@ -1,7 +1,7 @@
 """Module that implements a syntax analyzer."""
 
 import ply.yacc as yacc
-from lexical_analyzer import lexer
+from lexical_analyzer import *
 from abstract_syntax_tree import PrintStatement, Identifier, If, While, InstructionList, BaseExpression, Primitive, Assignment
 
 
@@ -126,16 +126,14 @@ def p_error(p):
     raise ParserSyntaxError("Error en la terminacion del archivo.")
 
 
-def run_syntax_analyzer(output):
-
+def run_syntax_analyzer(DEBUG):
     while True:
         token = lexer.token()
 
         if token is None:
             break
-
-        # TODO: Borrar esto, solamente para probar que la entrada es igual a la salida
         else:
-            print(str(token))
+            if DEBUG:
+                print(str(token))
 
     return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc()

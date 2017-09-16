@@ -116,7 +116,6 @@ def t_error(t):
 
 
 def setup(source_file):
-
     lexical_analyzer.input(source_file)
 
 

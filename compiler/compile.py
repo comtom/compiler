@@ -7,18 +7,17 @@ from lexical_analyzer import setup
 from syntax_analyzer import run_syntax_analyzer
 
 
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', False) == 'True'
 
 
 def main(source_file):
     setup(source_file)
 
     if DEBUG:
-        output = ''
-        run_syntax_analyzer(output)
+        run_syntax_analyzer(DEBUG)
     else:
         try:
-            run_syntax_analyzer()
+            run_syntax_analyzer(DEBUG)
             return 0
         except Exception as error:
             sys.stderr.write('ERROR: %s' % str(error))
