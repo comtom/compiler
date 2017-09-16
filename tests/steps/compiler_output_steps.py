@@ -1,7 +1,7 @@
 from behave import given, when, then
 from expects import *
-from lexical_analyzer import setup
-from syntax_analyzer import run_syntax_analyzer
+from compiler.lexical_analyzer import setup
+from compiler.syntax_analyzer import run_syntax_analyzer
 
 
 @given('a program source file named {file}')
