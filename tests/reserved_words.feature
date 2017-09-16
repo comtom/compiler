@@ -1,4 +1,3 @@
-# Created by comtom at 9/3/17
 Feature: Reserved Words
   This test tests reserved words case, as the language is case sensitive
 
@@ -50,4 +49,3 @@ Feature: Reserved Words
       | prInT a                                                   |
       | wHiLe                                                     |
       | While                                                     |
-

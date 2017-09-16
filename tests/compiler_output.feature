@@ -1,4 +1,3 @@
-# Created by comtom at 8/25/17
 Feature: Check lexical analyzer
   To check lexical analyzer, compiler output must be equal than input
 
