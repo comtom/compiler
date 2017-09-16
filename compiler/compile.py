@@ -14,7 +14,8 @@ def main(source_file):
     setup(source_file)
 
     if DEBUG:
-        run_syntax_analyzer()
+        output = ''
+        run_syntax_analyzer(output)
     else:
         try:
             run_syntax_analyzer()
