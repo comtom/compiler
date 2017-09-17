@@ -1,6 +1,7 @@
 import operator
 from types import LambdaType
-import symbol_table
+
+from compiler import symbol_table
 
 symbols = symbol_table.SymbolTable()
 

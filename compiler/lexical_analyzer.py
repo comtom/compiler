@@ -1,6 +1,6 @@
 """Module that implements a lexical analyzer."""
-import ylex as lexical_analyzer
-from exceptions import *
+import compiler.ylex as lexical_analyzer
+from compiler.exceptions import *
 
 
 reserved = {

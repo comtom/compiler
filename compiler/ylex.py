@@ -4,7 +4,8 @@ import types
 import copy
 import os
 import inspect
-from exceptions import LexError
+
+from compiler.exceptions import LexError
 
 
 StringTypes = (str, bytes)

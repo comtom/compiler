@@ -3,8 +3,9 @@
 
 import sys
 import os
-from lexical_analyzer import setup
-from syntax_analyzer import run_syntax_analyzer
+
+from compiler.lexical_analyzer import setup
+from compiler.syntax_analyzer import run_syntax_analyzer
 
 
 DEBUG = os.getenv('DEBUG', False) == 'True'

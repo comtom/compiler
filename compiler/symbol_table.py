@@ -1,4 +1,4 @@
-from exceptions import SymbolNotFound
+from compiler.exceptions import SymbolNotFound
 
 
 class SymbolTable:

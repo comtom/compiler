@@ -1,8 +1,9 @@
 """Module that implements a syntax analyzer."""
 
 import ply.yacc as yacc
-from lexical_analyzer import *
-from abstract_syntax_tree import PrintStatement, Identifier, If, While, InstructionList, BaseExpression, Primitive, Assignment
+
+from compiler.lexical_analyzer import *
+from compiler.abstract_syntax_tree import PrintStatement, Identifier, If, While, InstructionList, BaseExpression, Primitive, Assignment
 
 
 disable_warnings = False
