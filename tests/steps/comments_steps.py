@@ -4,6 +4,7 @@ from expects import *
 
 @given('a mocked source {program}')
 def mocked_source(context, program):
+    context.error = None
     context.program = program
 
 
@@ -14,4 +15,4 @@ def check_valid_comments(context):
 
 @then('compiler must not accept the input')
 def check_invalid_comments(context):
-    pass
+    expect(context.error).to_not(be_none)

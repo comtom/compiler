@@ -15,6 +15,10 @@ class SymbolNotFound(CompilerError):
     pass
 
 
+class UnexpectedChar(CompilerError):
+    pass
+
+
 class LexError(CompilerError):
     def __init__(self, message, s):
         self.args = (message,)

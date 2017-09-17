@@ -112,7 +112,7 @@ def t_STRING(t):
 
 
 def t_error(t):
-    raise Exception("Unexpected character '%s' at line %d" % (t.value[0], t.lineno))
+    raise UnexpectedChar("Caracter inesperado '%s' en linea %d" % (t.value[0], t.lineno))
 
 
 def setup(source_file):

@@ -3,5 +3,6 @@ Feature: Check lexical analyzer
 
   Scenario: Input program is equal than compiler output
     Given a program source file named example.code
+    And loads mocked source to verify output
     When the user invokes the compiler with the program as an argument
     Then input program is equal to output
