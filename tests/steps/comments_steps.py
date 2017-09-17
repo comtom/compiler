@@ -10,7 +10,7 @@ def mocked_source(context, program):
 
 @then('compiler must remove comments and accept the input')
 def check_valid_comments(context):
-    pass
+    expect(context.error).to(be_none)
 
 
 @then('compiler must not accept the input')
