@@ -1,4 +1,3 @@
-
 class CompilerError(Exception):
     def __init__(self, message):
         self.message = message
@@ -16,6 +15,10 @@ class SymbolNotFound(CompilerError):
 
 
 class UnexpectedChar(CompilerError):
+    pass
+
+
+class CompilerRuntimeError(CompilerError):
     pass
 
 

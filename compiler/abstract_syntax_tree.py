@@ -2,6 +2,7 @@ import operator
 from types import LambdaType
 
 from compiler import symbol_table
+from compiler.exceptions import CompilerRuntimeError
 
 symbols = symbol_table.SymbolTable()
 
@@ -154,7 +155,7 @@ class BinaryOperation(BaseExpression):
             return op(left, right)
         except TypeError:
             fmt = (left.__class__.__name__, left, self.op, right.__class__.__name__, right)
-            raise InterpreterRuntimeError("Unable to apply operation (%s: %s) %s (%s: %s)" % fmt)
+            raise CompilerRuntimeError("Error: No se ha podido realizar la operacion (%s: %s) %s (%s: %s)" % fmt)
 
 
 class UnaryOperation(BaseExpression):

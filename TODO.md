@@ -14,3 +14,7 @@ salida
 - luego la tabla de estados
 - recien ahi codificar
 
+--------
+
+describir como funciona matriz de acciones semanticas
+describir como funciona matriz de transicion de estados
