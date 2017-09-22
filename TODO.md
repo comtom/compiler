@@ -3,18 +3,15 @@ Compiladores UFASTA 2017
 
 ## Project diagram
 
-programa fuente
-analizador lexico ------------ tabla de simbolos
-analizador sintactico               |
-generacion de codigo  --------------/
-salida
-
-
-- primero hacer el automata
-- luego la tabla de estados
-- recien ahi codificar
 
 --------
 
 describir como funciona matriz de acciones semanticas
 describir como funciona matriz de transicion de estados
+
+
+investigar sobre generacion de codigo
+
+## Facts
+* A la lista de tokens se le concatena palabras reservadas
+* La tabla de simbolos se implementa como un diccionario (hashtable)

@@ -59,7 +59,7 @@ t_LBRACK = '{'
 t_RBRACK = '}'
 t_LSQBRACK = r'\['
 t_RSQBRACK = r'\]'
-t_EQ = '=='
+t_EQ = '='
 t_NEQ = '!='
 t_GT = '>'
 t_GTE = '>='
@@ -105,7 +105,7 @@ def t_NUM_INT(t):
 
 
 def t_STRING(t):
-    r'"(?:\\"|.)*?"'
+    r'([ ^ "|\+]+)'
     t.value = bytes(t.value.lstrip('"').rstrip('"'), "utf-8").decode("unicode_escape")
 
     return t

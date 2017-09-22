@@ -21,9 +21,10 @@ Feature: Comments
 
     Examples:
       | program                                                   |
-      | & invalid comment                                        |
+      | & invalid comment                                         |
       | & valid comment #0 '''                                    |
       | /* valid comment #1 */                                    |
 #     problemas con los multilinea, verificar que \n funcione
 #      | && valid comment #2 \n  Other line +\n  Last line &&      |
 #      | && valid comment #3 +\n  Other line \n  Last line         |
+#      | && invalid comment '\n' asdsad                            |

@@ -8,8 +8,13 @@ Feature: Constants
 
     Examples:
       | program                                                  |
-      | i_51515                                                  |
-      | i_45647                                                  |
+      | _i51515                                                  |
+      | _i45647                                                  |
+      | _i45647                                                  |
+      | _l4294967200                                             |
+      | _l-4294967200                                            |
+      | _i65530                                                  |
+      | _i-65530                                                 |
 
 
   Scenario Outline: Constants without prefix
@@ -23,7 +28,6 @@ Feature: Constants
       | 45647                                                    |
 
 
-
   Scenario Outline: Constants under valid range
     # TODO: table w/ values, testing min & max values (at least 2 values for each)
     Given a mocked source <program>
@@ -34,8 +38,13 @@ Feature: Constants
       | program                                                  |
       | 32767                                                    |
       | -32768                                                   |
-      | i_32767                                                  |
-      | i_-32768                                                 |
+      | _i32767                                                  |
+      | _i-32768                                                 |
+      | _l4294967200                                             |
+      | _l-4294967200                                            |
+      | _l4294967295                                             |
+      | _l-4294967296                                            |
+
 
   Scenario Outline: Constants out of valid range
     # TODO: table w/ values, testing min & max values (at least 2 values for each)
@@ -49,5 +58,7 @@ Feature: Constants
       | 320768                                                   |
       | -320769                                                  |
       | -320769                                                  |
-      | i_327568                                                 |
-      | i_-327639                                                |
+      | _i327568                                                 |
+      | _i-327639                                                |
+      | _l4294967296                                             |
+      | _l-4294967297                                            |

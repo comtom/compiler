@@ -8,9 +8,9 @@ Feature: Strings
 
     Examples:
       | program                                                  |
-      | ''' valid string '''                                     |
-      | ''' valid string #1 '''                                  |
-      | ''' valid string #2 +\n  Other line +\n  Last line '''   |
+      | " valid string "                                         |
+      | " valid string #1 "                                      |
+      | " valid string #2 +\n  Other line +\n  Last line "       |
 
 
   Scenario Outline: Invalid strings
@@ -20,8 +20,8 @@ Feature: Strings
 
     Examples:
       | program                                                  |
-      | ''' invalid string ''                                    |
-      | '' valid string #0 '''                                   |
-      | ' valid string #1 '                                      |
-      | ''' valid string #2 \n  Other line +\n  Last line '''    |
-      | ''' valid string #3 +\n  Other line \n  Last line '''    |
+      | " invalid string \n "                                    |
+      | "" valid string #0 """                                   |
+      | " valid string #1 '                                      |
+      | " valid string #2 \n  Other line +\n  Last line "        |
+      | " valid string #3 +\n  Other line \n  Last line "        |

@@ -81,8 +81,6 @@ class Primitive(BaseExpression):
 
 
 class Identifier(BaseExpression):
-    is_function = False
-
     def __init__(self, name):
         self.name = name
 
@@ -90,15 +88,9 @@ class Identifier(BaseExpression):
         return '<Identifier {0}>'.format(self.name)
 
     def assign(self, val):
-        if self.is_function:
-            symbols.set_func(self.name, val)
-        else:
-            symbols.set_sym(self.name, val)
+        symbols.set_sym(self.name, val)
 
     def eval(self):
-        if self.is_function:
-            return symbols.get_func(self.name)
-
         return symbols.get_sym(self.name)
 
 
@@ -111,10 +103,7 @@ class Assignment(BaseExpression):
         return '<Assignment sym={0}; val={1}>'.format(self.identifier, self.val)
 
     def eval(self):
-        if self.identifier.is_function:
-            self.identifier.assign(self.val)
-        else:
-            self.identifier.assign(self.val.eval())
+        self.identifier.assign(self.val.eval())
 
 
 class BinaryOperation(BaseExpression):
