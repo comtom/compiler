@@ -75,6 +75,7 @@ def p_statement_list(p):
 def p_primitive(p):
     '''
     primitive : NUM_INT
+              | NUM_LONG
               | STRING
     '''
     if isinstance(p[1], BaseExpression):

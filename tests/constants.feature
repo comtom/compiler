@@ -29,7 +29,6 @@ Feature: Constants
 
 
   Scenario Outline: Constants under valid range
-    # TODO: table w/ values, testing min & max values (at least 2 values for each)
     Given a mocked source <program>
     When the user invokes the compiler with the program as an argument
     Then compiler must accept the input
@@ -47,7 +46,6 @@ Feature: Constants
 
 
   Scenario Outline: Constants out of valid range
-    # TODO: table w/ values, testing min & max values (at least 2 values for each)
     Given a mocked source <program>
     When the user invokes the compiler with the program as an argument
     Then compiler must reject the input

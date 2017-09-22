@@ -1,4 +1,7 @@
-"""Module that implements a lexical analyzer."""
+"""
+    Module that implements a lexical analyzer.
+    Check regular expressions in https://pythex.org/
+"""
 import compiler.ylex as lexical_analyzer
 from compiler.exceptions import *
 
@@ -18,6 +21,7 @@ tokens = [
     'EQUALS',
     'IDENTIFIER',
     'NUM_INT',
+    'NUM_LONG',
     'LPAREN',
     'RPAREN',
     'LBRACK',
@@ -98,7 +102,14 @@ def t_IDENTIFIER(t):
 
 
 def t_NUM_INT(t):
-    r'\d+'
+    r'_i(\d+)'
+    t.value = int(t.value)
+
+    return t
+
+
+def t_NUM_LONG(t):
+    r'_l(\d+)'
     t.value = int(t.value)
 
     return t
