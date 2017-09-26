@@ -20,8 +20,8 @@ Feature: Strings
 
     Examples:
       | program                                                  |
-      | " invalid string \n "                                    |
+      | ' invalid string '                                       |
       | "" valid string #0 """                                   |
       | " valid string #1 '                                      |
-      | " valid string #2 \n  Other line +\n  Last line "        |
-      | " valid string #3 +\n  Other line \n  Last line "        |
+      #| " valid string #2 \n  Other line \n  Last line "         |
+      #| " valid string #3 +\n  Other line \n  Last line "        |
