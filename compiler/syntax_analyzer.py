@@ -1,5 +1,3 @@
-"""Module that implements a syntax analyzer."""
-
 import ply.yacc as yacc
 
 from compiler.lexical_analyzer import *

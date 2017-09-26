@@ -1,7 +1,4 @@
-"""
-    Module that implements a lexical analyzer.
-    Check regular expressions in https://pythex.org/
-"""
+"""Check regular expressions in https://pythex.org/"""
 import compiler.ylex as lexical_analyzer
 from compiler.exceptions import *
 
@@ -14,14 +11,14 @@ reserved = {
     'while': 'WHILE',
 
     'print': 'PRINT',
+    'integer': 'NUM_INT',
+    'longint': 'NUM_LONG',
 }
 
 tokens = [
     'STMT_END',
     'EQUALS',
     'IDENTIFIER',
-    'NUM_INT',
-    'NUM_LONG',
     'LPAREN',
     'RPAREN',
     'LBRACK',
@@ -38,9 +35,6 @@ tokens = [
 
     'LSHIFT',
     'RSHIFT',
-
-    'TRUE',
-    'FALSE',
 
     'EQ',
     'NEQ',
@@ -80,20 +74,6 @@ def t_NEWLINE(t):
     pass
 
 
-def t_TRUE(t):
-    'true'
-    t.value = True
-
-    return t
-
-
-def t_FALSE(t):
-    'false'
-    t.value = False
-
-    return t
-
-
 def t_IDENTIFIER(t):
     r'[\$_a-zA-Z]\w*'
     t.type = reserved.get(t.value, t.type)
@@ -103,6 +83,7 @@ def t_IDENTIFIER(t):
 
 def t_NUM_INT(t):
     r'_i(\d+)'
+    # ver de devolver string
     t.value = int(t.value)
 
     return t
@@ -110,14 +91,15 @@ def t_NUM_INT(t):
 
 def t_NUM_LONG(t):
     r'_l(\d+)'
+    # sacar esta accion
     t.value = int(t.value)
 
     return t
 
 
 def t_STRING(t):
-    r'([ ^ "|\+]+)'
-    t.value = bytes(t.value.lstrip('"').rstrip('"'), "utf-8").decode("unicode_escape")
+    r'"(?:\\"|\+\n|.)*?"'
+    t.value = bytes(t.value.replace('+\n',' ').lstrip('"').rstrip('"'), "utf-8").decode("unicode_escape")
 
     return t
 

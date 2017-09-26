@@ -298,88 +298,6 @@ class Lexer:
     __next__ = next
 
 
-
-def _get_regex(func):
-    return getattr(func, 'regex', func.__doc__)
-
-
-def get_caller_module_dict(levels):
-    f = sys._getframe(levels)
-    ldict = f.f_globals.copy()
-    if f.f_globals != f.f_locals:
-        ldict.update(f.f_locals)
-    return ldict
-
-
-def _funcs_to_names(funclist, namelist):
-    result = []
-    for f, name in zip(funclist, namelist):
-        if f and f[0]:
-            result.append((name, f[1]))
-        else:
-            result.append(f)
-    return result
-
-
-def _names_to_funcs(namelist, fdict):
-    result = []
-    for n in namelist:
-        if n and n[0]:
-            result.append((fdict[n[0]], n[1]))
-        else:
-            result.append(n)
-    return result
-
-
-def _form_master_re(relist, reflags, ldict, toknames):
-    if not relist:
-        return []
-    regex = '|'.join(relist)
-    try:
-        lexre = re.compile(regex, reflags)
-        lexindexfunc = [None] * (max(lexre.groupindex.values()) + 1)
-        lexindexnames = lexindexfunc[:]
-
-        for f, i in lexre.groupindex.items():
-            handle = ldict.get(f, None)
-            if type(handle) in (types.FunctionType, types.MethodType):
-                lexindexfunc[i] = (handle, toknames[f])
-                lexindexnames[i] = f
-            elif handle is not None:
-                lexindexnames[i] = f
-                if f.find('ignore_') > 0:
-                    lexindexfunc[i] = (None, None)
-                else:
-                    lexindexfunc[i] = (None, toknames[f])
-
-        return [(lexre, lexindexfunc)], [regex], [lexindexnames]
-    except Exception:
-        m = int(len(relist) / 2)
-        if m == 0:
-            m = 1
-        llist, lre, lnames = _form_master_re(relist[:m], reflags, ldict, toknames)
-        rlist, rre, rnames = _form_master_re(relist[m:], reflags, ldict, toknames)
-        return (llist + rlist), (lre + rre), (lnames + rnames)
-
-
-def _statetoken(s, names):
-    parts = s.split('_')
-    for i, part in enumerate(parts[1:], 1):
-        if part not in names and part != 'ANY':
-            break
-
-    if i > 1:
-        states = tuple(parts[1:i])
-    else:
-        states = ('INITIAL',)
-
-    if 'ANY' in states:
-        states = tuple(names)
-
-    tokenname = '_'.join(parts[i:])
-    return (states, tokenname)
-
-
 class LexerReflect(object):
     def __init__(self, ldict, log=None, reflags=0):
         self.ldict = ldict
@@ -660,6 +578,87 @@ class LexerReflect(object):
                                    prev)
                     self.error = True
             linen += 1
+
+
+def _get_regex(func):
+    return getattr(func, 'regex', func.__doc__)
+
+
+def get_caller_module_dict(levels):
+    f = sys._getframe(levels)
+    ldict = f.f_globals.copy()
+    if f.f_globals != f.f_locals:
+        ldict.update(f.f_locals)
+    return ldict
+
+
+def _names_to_funcs(namelist, fdict):
+    result = []
+    for n in namelist:
+        if n and n[0]:
+            result.append((fdict[n[0]], n[1]))
+        else:
+            result.append(n)
+    return result
+
+
+def _funcs_to_names(funclist, namelist):
+    result = []
+    for f, name in zip(funclist, namelist):
+        if f and f[0]:
+            result.append((name, f[1]))
+        else:
+            result.append(f)
+    return result
+
+
+def _form_master_re(relist, reflags, ldict, toknames):
+    if not relist:
+        return []
+    regex = '|'.join(relist)
+    try:
+        lexre = re.compile(regex, reflags)
+        lexindexfunc = [None] * (max(lexre.groupindex.values()) + 1)
+        lexindexnames = lexindexfunc[:]
+
+        for f, i in lexre.groupindex.items():
+            handle = ldict.get(f, None)
+            if type(handle) in (types.FunctionType, types.MethodType):
+                lexindexfunc[i] = (handle, toknames[f])
+                lexindexnames[i] = f
+            elif handle is not None:
+                lexindexnames[i] = f
+                if f.find('ignore_') > 0:
+                    lexindexfunc[i] = (None, None)
+                else:
+                    lexindexfunc[i] = (None, toknames[f])
+
+        return [(lexre, lexindexfunc)], [regex], [lexindexnames]
+    except Exception:
+        m = int(len(relist) / 2)
+        if m == 0:
+            m = 1
+        llist, lre, lnames = _form_master_re(relist[:m], reflags, ldict, toknames)
+        rlist, rre, rnames = _form_master_re(relist[m:], reflags, ldict, toknames)
+        return (llist + rlist), (lre + rre), (lnames + rnames)
+
+
+def _statetoken(s, names):
+    parts = s.split('_')
+    for i, part in enumerate(parts[1:], 1):
+        if part not in names and part != 'ANY':
+            break
+
+    if i > 1:
+        states = tuple(parts[1:i])
+    else:
+        states = ('INITIAL',)
+
+    if 'ANY' in states:
+        states = tuple(names)
+
+    tokenname = '_'.join(parts[i:])
+    return (states, tokenname)
 
 
 def lex(module=None, object=None, lextab='lextab', reflags=int(re.VERBOSE), nowarn=False, outputdir=None, debuglog=None, errorlog=None):
