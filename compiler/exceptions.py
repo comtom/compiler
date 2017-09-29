@@ -22,7 +22,7 @@ class CompilerRuntimeError(CompilerError):
     pass
 
 
-class LexError(CompilerError):
+class LexicalError(CompilerError):
     def __init__(self, message, s):
         self.args = (message,)
         self.text = s

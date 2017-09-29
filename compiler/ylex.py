@@ -5,7 +5,7 @@ import copy
 import os
 import inspect
 
-from compiler.exceptions import LexError
+from compiler.exceptions import LexicalError as LexError
 
 
 StringTypes = (str, bytes)
@@ -47,28 +47,28 @@ class NullLogger:
 
 class Lexer:
     def __init__(self):
-        self.lexre = None  # Master regular expression
-        self.lexretext = None  # Current regular expression strings
-        self.lexstatere = {}  # Dictionary mapping lexer states to master regexs
-        self.lexstateretext = {}  # Dictionary mapping lexer states to regex strings
-        self.lexstaterenames = {}  # Dictionary mapping lexer states to symbol names
-        self.lexstate = 'INITIAL'  # Current lexer state
-        self.lexstatestack = []  # Stack of lexer states
-        self.lexstateinfo = None  # State information
-        self.lexstateignore = {}  # Dictionary of ignored characters for each state
-        self.lexstateerrorf = {}  # Dictionary of error functions for each state
-        self.lexstateeoff = {}  # Dictionary of eof functions for each state
-        self.lexreflags = 0  # Optional re compile flags
-        self.lexdata = None  # Actual input data (as a string)
-        self.lexpos = 0  # Current position in input text
-        self.lexlen = 0  # Length of the input text
-        self.lexerrorf = None  # Error rule (if any)
-        self.lexeoff = None  # EOF rule (if any)
-        self.lextokens = None  # List of valid tokens
-        self.lexignore = ''  # Ignored characters
-        self.lexliterals = ''  # Literal characters that can be passed through
-        self.lexmodule = None  # Module
-        self.lineno = 1  # Current line number
+        self.lexre = None           # expresion regular base
+        self.lexretext = None       # regex para strings
+        self.lexstatere = {}        # mapeo de estados del lexer a la regex base
+        self.lexstateretext = {}    # mapeo de estados del lexer a la regex de strings
+        self.lexstaterenames = {}   # mapeo de estados del lexer a nombres de simbolos
+        self.lexstate = 'INITIAL'   # estado actual del lexer
+        self.lexstatestack = []     # pila de estados del lexer
+        self.lexstateinfo = None    # info del estado
+        self.lexstateignore = {}    # dict de caracteres ignorados para cada estado
+        self.lexstateerrorf = {}    # dict de funciones de error para cada estado
+        self.lexstateeoff = {}      # dict para las funciones de fin de linea para cada estado
+        self.lexreflags = 0         # flags para el modulo re
+        self.lexdata = None         # informacion de entrada como string
+        self.lexpos = 0             # posicion actual en el texto de entrada
+        self.lexlen = 0             # largo del texto de entrada
+        self.lexerrorf = None       # reglas de error
+        self.lexeoff = None         # fin de linea
+        self.lextokens = None       # lista de tokens validos
+        self.lexignore = ''         # caracteres ignored
+        self.lexliterals = ''       # Literal characters that can be passed through
+        self.lexmodule = None       # modulo
+        self.lineno = 1             # linea actual
 
     def clone(self, object=None):
         c = copy.copy(self)
@@ -197,12 +197,12 @@ class Lexer:
         lexdata = self.lexdata
 
         while lexpos < lexlen:
-            # p/ evitar problemas con los espacios, tabs y caracteres ingnorados
+            # hack para evitar problemas con los espacios, tabs y caracteres ingnorados
             if lexdata[lexpos] in lexignore:
                 lexpos += 1
                 continue
 
-            # Look for a regular expression match
+            # busca la regex
             for lexre, lexindexfunc in self.lexre:
                 m = lexre.match(lexdata, lexpos)
                 if not m:
@@ -430,7 +430,7 @@ class LexerReflect(object):
                 elif tokname == 'ignore':
                     line = t.__code__.co_firstlineno
                     file = t.__code__.co_filename
-                    self.log.error("%s:%d: Rule '%s' must be defined as a string", file, line, t.__name__)
+                    self.log.error("%s:%d: La regla '%s' debe ser definida como un string", file, line, t.__name__)
                     self.error = True
                 else:
                     for s in states:
@@ -440,16 +440,16 @@ class LexerReflect(object):
                     for s in states:
                         self.ignore[s] = t
                     if '\\' in t:
-                        self.log.warning("%s contains a literal backslash '\\'", f)
+                        self.log.warning("%s contiene una barra '\\'", f)
 
                 elif tokname == 'error':
-                    self.log.error("Rule '%s' must be defined as a function", f)
+                    self.log.error("Rule '%s' debe ser definida como una funcion", f)
                     self.error = True
                 else:
                     for s in states:
                         self.strsym[s].append((f, t))
             else:
-                self.log.error('%s not defined as a function or string', f)
+                self.log.error('%s no definida como una funcion o un string', f)
                 self.error = True
 
         for f in self.funcsym.values():
@@ -473,58 +473,58 @@ class LexerReflect(object):
                     reqargs = 1
                 nargs = f.__code__.co_argcount
                 if nargs > reqargs:
-                    self.log.error("%s:%d: Rule '%s' has too many arguments", file, line, f.__name__)
+                    self.log.error("%s:%d: La regla '%s' posee demasiados argumentos", file, line, f.__name__)
                     self.error = True
                     continue
 
                 if nargs < reqargs:
-                    self.log.error("%s:%d: Rule '%s' requires an argument", file, line, f.__name__)
+                    self.log.error("%s:%d: La regla '%s' require al menos un argumento", file, line, f.__name__)
                     self.error = True
                     continue
 
                 if not _get_regex(f):
-                    self.log.error("%s:%d: No regular expression defined for rule '%s'", file, line, f.__name__)
+                    self.log.error("%s:%d: No ha definido una expresion regular para la regla '%s'", file, line, f.__name__)
                     self.error = True
                     continue
 
                 try:
                     c = re.compile('(?P<%s>%s)' % (fname, _get_regex(f)), self.reflags)
                     if c.match(''):
-                        self.log.error("%s:%d: Regular expression for rule '%s' matches empty string", file, line,
+                        self.log.error("%s:%d: La expresion regular para la regla '%s' coincide para un string vacio", file, line,
                                        f.__name__)
                         self.error = True
                 except re.error as e:
-                    self.log.error("%s:%d: Invalid regular expression for rule '%s'. %s", file, line, f.__name__, e)
+                    self.log.error("%s:%d: Expresion regular invalida para la regla '%s'. %s", file, line, f.__name__, e)
                     if '#' in _get_regex(f):
-                        self.log.error("%s:%d. Make sure '#' in rule '%s' is escaped with '\\#'", file, line,
+                        self.log.error("%s:%d. El caracter '#' no ha siddo escapado en '%s' debe escaparlo con '\\#'", file, line,
                                        f.__name__)
                     self.error = True
 
             for name, r in self.strsym[state]:
                 tokname = self.toknames[name]
                 if tokname == 'error':
-                    self.log.error("Rule '%s' must be defined as a function", name)
+                    self.log.error("La regla '%s' debe ser definida como una funcion", name)
                     self.error = True
                     continue
 
                 if tokname not in self.tokens and tokname.find('ignore_') < 0:
-                    self.log.error("Rule '%s' defined for an unspecified token %s", name, tokname)
+                    self.log.error("La regla '%s' esta definida para un token no especificado %s", name, tokname)
                     self.error = True
                     continue
 
                 try:
                     c = re.compile('(?P<%s>%s)' % (name, r), self.reflags)
                     if (c.match('')):
-                        self.log.error("Regular expression for rule '%s' matches empty string", name)
+                        self.log.error("La expresion regular para la regla '%s' coincide para un string vacio", name)
                         self.error = True
                 except re.error as e:
-                    self.log.error("Invalid regular expression for rule '%s'. %s", name, e)
+                    self.log.error("La expresion regular es invalida para la regla '%s'. %s", name, e)
                     if '#' in r:
-                        self.log.error("Make sure '#' in rule '%s' is escaped with '\\#'", name)
+                        self.log.error("%s:%d. El caracter '#' no ha sido escapado en '%s' debe escaparlo con '\\#'", name)
                     self.error = True
 
             if not self.funcsym[state] and not self.strsym[state]:
-                self.log.error("No rules defined for state '%s'", state)
+                self.log.error("No hay reglas definidas para el estado '%s'", state)
                 self.error = True
 
             efunc = self.errorf.get(state, None)
@@ -541,11 +541,11 @@ class LexerReflect(object):
                     reqargs = 1
                 nargs = f.__code__.co_argcount
                 if nargs > reqargs:
-                    self.log.error("%s:%d: Rule '%s' has too many arguments", file, line, f.__name__)
+                    self.log.error("%s:%d: La regla '%s' posee demasiados argumentos", file, line, f.__name__)
                     self.error = True
 
                 if nargs < reqargs:
-                    self.log.error("%s:%d: Rule '%s' requires an argument", file, line, f.__name__)
+                    self.log.error("%s:%d: La regla '%s' require al menos un argumento", file, line, f.__name__)
                     self.error = True
 
         for module in self.modules:
@@ -574,7 +574,7 @@ class LexerReflect(object):
                     counthash[name] = linen
                 else:
                     filename = inspect.getsourcefile(module)
-                    self.log.error('%s:%d: Rule %s redefined. Previously defined on line %d', filename, linen, name,
+                    self.log.error('%s:%d: La regla %s fue previamente definida en la linea %d', filename, linen, name,
                                    prev)
                     self.error = True
             linen += 1
@@ -680,7 +680,6 @@ def lex(module=None, object=None, lextab='lextab', reflags=int(re.VERBOSE), nowa
     if module:
         _items = [(k, getattr(module, k)) for k in dir(module)]
         ldict = dict(_items)
-        # If no __file__ attribute is available, try to obtain it from the __module__ instead
         if '__file__' not in ldict:
             ldict['__file__'] = sys.modules[ldict['__module__']].__file__
     else:
@@ -745,7 +744,7 @@ def lex(module=None, object=None, lextab='lextab', reflags=int(re.VERBOSE), nowa
     lexobj.lexstateerrorf = linfo.errorf
     lexobj.lexerrorf = linfo.errorf.get('INITIAL', None)
     if not lexobj.lexerrorf:
-        errorlog.warning('No t_error rule is defined')
+        errorlog.warning('No se ha definido la regla: t_error')
 
     lexobj.lexstateeoff = linfo.eoff
     lexobj.lexeoff = linfo.eoff.get('INITIAL', None)
@@ -753,9 +752,9 @@ def lex(module=None, object=None, lextab='lextab', reflags=int(re.VERBOSE), nowa
     for s, stype in stateinfo.items():
         if stype == 'exclusive':
             if s not in linfo.errorf:
-                errorlog.warning("No error rule is defined for exclusive state '%s'", s)
+                errorlog.warning("No se ha definido una regla de error para el estado '%s'", s)
             if s not in linfo.ignore and lexobj.lexignore:
-                errorlog.warning("No ignore rule is defined for exclusive state '%s'", s)
+                errorlog.warning("No se ha definido una regla para ignorar la entrada en el estado '%s'", s)
         elif stype == 'inclusive':
             if s not in linfo.errorf:
                 linfo.errorf[s] = linfo.errorf.get('INITIAL', None)
@@ -777,8 +776,8 @@ def runmain(lexer=None, data=None):
             data = f.read()
             f.close()
         except IndexError:
-            sys.stdout.write('Reading from standard input (type EOF to end):\n')
-            data = sys.stdin.read()
+            sys.stdout.write('Error. No se proporciono un archivo')
+            sys.exit(1)
 
     if lexer:
         _input = lexer.input
