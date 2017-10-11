@@ -1,5 +1,4 @@
-"""Check regular expressions in https://pythex.org/"""
-import compiler.ylex as lexical_analyzer
+from compiler import lexer as lexer_module
 from compiler.exceptions import *
 
 
@@ -109,7 +108,7 @@ def t_error(t):
 
 
 def setup(source_file):
-    lexical_analyzer.input(source_file)
+    lexer.input(source_file)
 
 
-lexer = lexical_analyzer.lex()
+lexer = lexer_module.build()

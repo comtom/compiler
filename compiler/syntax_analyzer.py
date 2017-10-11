@@ -1,7 +1,12 @@
 import ply.yacc as yacc
 
 from compiler.lexical_analyzer import *
-from compiler.abstract_syntax_tree import PrintStatement, Identifier, If, While, InstructionList, BaseExpression, Primitive, Assignment
+from compiler.parser import InstructionList, BaseExpression, Primitive
+from compiler.parser.operations import Assignment
+from compiler.parser.print import PrintStatement
+from compiler.parser.identifier import Identifier
+from compiler.parser.if_statement import If
+from compiler.parser.while_statement import While
 
 
 disable_warnings = False

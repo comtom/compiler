@@ -4,16 +4,13 @@ Compiladores UFASTA 2017
 ## Project diagram
 
 
---------
-
+# TODO
 describir como funciona matriz de acciones semanticas
 describir como funciona matriz de transicion de estados
-
 
 investigar sobre generacion de codigo
 
 ## Code
-* Agregar tests de operaciones matematicas
 * Cambiar acciones semanticas de INTEGERS
 
 ## Facts
