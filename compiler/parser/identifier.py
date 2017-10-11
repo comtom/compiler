@@ -1,7 +1,6 @@
 from compiler.parser import BaseExpression, symbols
 
 
-
 class Identifier(BaseExpression):
     def __init__(self, name):
         self.name = name
