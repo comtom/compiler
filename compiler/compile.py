@@ -30,6 +30,6 @@ if __name__ == '__main__':
         print("Error: Debe indicar el archivo a compilar: %s archivo_codigo_fuente.code" % __file__)
     else:
         with open(sys.argv[1]) as f:
-            source_file = data=f.read()
+            source_file = data = f.read()
 
     sys.exit(main(source_file))

@@ -279,7 +279,6 @@ class LexerReflect(object):
         for module in self.modules:
             self.validate_module(module)
 
-
     def validate_module(self, module):
         try:
             lines, linen = inspect.getsourcelines(module)

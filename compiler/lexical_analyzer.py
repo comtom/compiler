@@ -1,5 +1,5 @@
 from compiler import lexer as lexer_module
-from compiler.exceptions import *
+from compiler.exceptions import UnexpectedChar
 
 
 reserved = {
@@ -98,7 +98,7 @@ def t_NUM_LONG(t):
 
 def t_STRING(t):
     r'"(?:\\"|\+\n|.)*?"'
-    t.value = bytes(t.value.replace('+\n',' ').lstrip('"').rstrip('"'), "utf-8").decode("unicode_escape")
+    t.value = bytes(t.value.replace('+\n', ' ').lstrip('"').rstrip('"'), "utf-8").decode("unicode_escape")
 
     return t
 
