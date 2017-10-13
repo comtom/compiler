@@ -2,7 +2,7 @@ import operator
 from types import LambdaType
 from compiler.parser import BaseExpression
 from compiler.parser.identifier import Identifier
-from compiler.exceptions import CompilerRuntimeError
+from compiler.exceptions import CompilerRuntimeError, ParserSyntaxError
 
 
 class BinaryOperation(BaseExpression):
@@ -73,3 +73,4 @@ class Assignment(BaseExpression):
 
     def eval(self):
         self.identifier.assign(self.val.eval())
+

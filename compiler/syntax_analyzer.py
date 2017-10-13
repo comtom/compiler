@@ -3,8 +3,8 @@ import ply.yacc as yacc
 from compiler.lexical_analyzer import *
 from compiler.exceptions import ParserSyntaxError
 from compiler.parser import InstructionList, BaseExpression, Primitive
-from compiler.parser.operations import Assignment
-from compiler.parser.print import PrintStatement
+from compiler.parser.operations import Assignment, BinaryOperation, UnaryOperation
+from compiler.parser.print_statement import PrintStatement
 from compiler.parser.identifier import Identifier
 from compiler.parser.if_statement import If
 from compiler.parser.while_statement import While
@@ -13,8 +13,10 @@ from compiler.parser.while_statement import While
 disable_warnings = False
 
 precedence = (
-    ('left', 'PLUS'),
-    ('left', 'MUL'),
+    ('left', 'PLUS', 'MINUS'),
+    ('right', 'MUL'),
+    #('right', 'UMINUS'),
+    #('right', 'UPLUS'),
 )
 
 
@@ -34,13 +36,12 @@ def p_identifier(p):
     p[0] = Identifier(p[1])
 
 
-def p_expression(p):
-    '''
-    expression : primitive
-               | STRING
-    '''
-    #   | identifier
-    p[0] = p[1]
+# def p_expression(p):
+#     '''
+#     expression : primitive
+#     '''
+#     #               | STRING
+#     p[0] = p[1]
 
 
 def p_ifstatement(p):
@@ -102,6 +103,49 @@ def p_assign(p):
     '''
     p[0] = Assignment(p[1], p[3])
 
+
+# def p_comma_separated_expr(p):
+#     '''
+#     arguments : arguments COMMA expression
+#               | expression
+#               |
+#     '''
+#     if len(p) == 2:
+#         p[0] = InstructionList([p[1]])
+#     elif len(p) == 1:
+#         p[0] = InstructionList()
+#     else:
+#         p[1].children.append(p[3])
+#         p[0] = p[1]
+
+
+def p_binary_op(p):
+    '''
+    expression : expression PLUS expression %prec PLUS
+            | expression MINUS expression %prec MINUS
+            | expression MUL expression %prec MUL
+    '''
+    p[0] = BinaryOperation(p[1], p[3], p[2])
+
+
+def p_boolean_operators(p):
+    '''
+    expression : expression EQ expression
+            | expression NEQ expression
+            | expression GT expression
+            | expression GTE expression
+            | expression LT expression
+            | expression LTE expression
+    '''
+    p[0] = BinaryOperation(p[1], p[3], p[2])
+
+
+# def p_unary_operation(p):
+#     '''
+#     expression : PLUS expression %prec UPLUS
+#     '''
+#     # MINUS expression %prec UMINUS
+#     p[0] = UnaryOperation(p[1], p[2])
 
 
 def p_paren(p):

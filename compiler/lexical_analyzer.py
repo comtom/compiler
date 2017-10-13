@@ -5,7 +5,7 @@ from compiler.exceptions import UnexpectedChar
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
-    'endif': 'ENDIF',
+#    'endif': 'ENDIF',
 
     'while': 'WHILE',
 
@@ -25,15 +25,12 @@ tokens = [
     'STRING',
     'COMMA',
     'NEWLINE',
-    'LSQBRACK',
-    'RSQBRACK',
+#    'LSQBRACK',
+#    'RSQBRACK',
 
     'PLUS',
     'MINUS',
     'MUL',
-
-    'LSHIFT',
-    'RSHIFT',
 
     'EQ',
     'NEQ',
@@ -54,8 +51,8 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACK = '{'
 t_RBRACK = '}'
-t_LSQBRACK = r'\['
-t_RSQBRACK = r'\]'
+#t_LSQBRACK = r'\['
+#t_RSQBRACK = r'\]'
 t_EQ = '='
 t_NEQ = '!='
 t_GT = '>'
