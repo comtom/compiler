@@ -1,4 +1,5 @@
-a := "hello world";
+a := "hello world+
+as";
 print a;
 
 if a = "hello" {

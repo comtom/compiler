@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 
 from compiler.lexical_analyzer import *
+from compiler.exceptions import ParserSyntaxError
 from compiler.parser import InstructionList, BaseExpression, Primitive
 from compiler.parser.operations import Assignment
 from compiler.parser.print import PrintStatement
@@ -37,8 +38,8 @@ def p_expression(p):
     '''
     expression : primitive
                | STRING
-               | identifier
     '''
+    #   | identifier
     p[0] = p[1]
 
 

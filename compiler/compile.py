@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""Wrapper module that calls syntax analyzer. This is neccesary in order to catch exceptions."""
+"""Wrapper que llama a syntax analyzer.
+Es necesario para poder capturar las excepciones y mostrar los errores correspondientes."""
 
 import sys
 import os
