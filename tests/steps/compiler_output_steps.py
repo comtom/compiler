@@ -35,8 +35,7 @@ def invoke_compiler(context):
 
 @then('input program is equal to output')
 def check_output(context):
-
     expect(context.source_file_content).to(equal(context.program_code))
     expect(context.error).to(be_none)
-    # TODO: hacer que contex.output sea stdout y no un objeto ylex
+    # hacer que contex.output sea stdout y no un objeto
     # expect(context.tokens).to(equal(context.output))
