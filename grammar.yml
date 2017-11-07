@@ -1,0 +1,34 @@
+
+identifier
+
+primitive
+
+
+
+definition : identifier primitive
+
+primitive_list : primitive_list, primitive
+              | primitive
+
+multiple_definition : definition, primitive_list
+
+assignable : primitive
+          |  expression
+
+
+
+expression
+
+statement
+
+statement_list
+
+
+
+
+Rule 0     S' -> statement
+Rule 1     statement -> expression
+Rule 4     statement -> IF expression LBRACK statement_list RBRACK
+Rule 5     statement -> IF expression LBRACK statement_list RBRACK ELSE LBRACK statement_list RBRACK
+Rule 24    statement -> WHILE expression LBRACK statement_list RBRACK
+Rule 25    statement -> PRINT STRING STMT_END

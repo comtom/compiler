@@ -5,10 +5,7 @@ from compiler.exceptions import UnexpectedChar
 reserved = {
     'if': 'IF',
     'else': 'ELSE',
-#    'endif': 'ENDIF',
-
     'while': 'WHILE',
-
     'print': 'PRINT',
     'integer': 'NUM_INT',
     'longint': 'NUM_LONG',

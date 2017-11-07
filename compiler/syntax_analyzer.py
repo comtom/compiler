@@ -29,6 +29,20 @@ def p_statement(p):
     p[0] = p[1]
 
 
+def p_while_loop(p):
+    '''
+    statement : WHILE expression LBRACK statement_list RBRACK
+    '''
+    p[0] = While(p[2], p[4])
+
+
+def p_print_statement(p):
+    '''
+    statement : PRINT STRING STMT_END
+    '''
+    p[0] = PrintStatement(p[2])
+
+
 def p_identifier(p):
     '''
     identifier : IDENTIFIER
@@ -36,12 +50,11 @@ def p_identifier(p):
     p[0] = Identifier(p[1])
 
 
-# def p_expression(p):
-#     '''
-#     expression : primitive
-#     '''
-#     #               | STRING
-#     p[0] = p[1]
+def p_expression(p):
+    '''
+    expression : primitive
+    '''
+    p[0] = p[1]
 
 
 def p_ifstatement(p):
@@ -91,8 +104,7 @@ def p_primitive(p):
 
 def p_assignable(p):
     '''
-    assignable : primitive
-               | expression
+    assignable : expression
     '''
     p[0] = p[1]
 
@@ -121,21 +133,20 @@ def p_assign(p):
 
 def p_binary_op(p):
     '''
-    expression : expression PLUS expression %prec PLUS
-            | expression MINUS expression %prec MINUS
-            | expression MUL expression %prec MUL
+    expression : expression PLUS expression STMT_END %prec PLUS
+            | expression MUL expression STMT_END %prec MUL
     '''
     p[0] = BinaryOperation(p[1], p[3], p[2])
 
 
 def p_boolean_operators(p):
     '''
-    expression : expression EQ expression
-            | expression NEQ expression
-            | expression GT expression
-            | expression GTE expression
-            | expression LT expression
-            | expression LTE expression
+    expression : LPAREN expression EQ expression RPAREN
+            | LPAREN expression NEQ expression RPAREN
+            | LPAREN expression GT expression RPAREN
+            | LPAREN expression GTE expression RPAREN
+            | LPAREN expression LT expression RPAREN
+            | LPAREN expression LTE expression RPAREN
     '''
     p[0] = BinaryOperation(p[1], p[3], p[2])
 
@@ -148,25 +159,11 @@ def p_boolean_operators(p):
 #     p[0] = UnaryOperation(p[1], p[2])
 
 
-def p_paren(p):
-    '''
-    expression : LPAREN expression RPAREN
-    '''
-    p[0] = p[2] if isinstance(p[2], BaseExpression) else Primitive(p[2])
-
-
-def p_while_loop(p):
-    '''
-    statement : WHILE expression LBRACK statement_list RBRACK
-    '''
-    p[0] = While(p[2], p[4])
-
-
-def p_print_statement(p):
-    '''
-    statement : PRINT STRING STMT_END
-    '''
-    p[0] = PrintStatement(p[2])
+# def p_paren(p):
+#     '''
+#     expression : LPAREN expression RPAREN
+#     '''
+#     p[0] = p[2] if isinstance(p[2], BaseExpression) else Primitive(p[2])
 
 
 def p_error(p):
