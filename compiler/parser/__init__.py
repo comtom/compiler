@@ -1,8 +1,5 @@
-import operator
-from types import LambdaType
-
 from compiler import symbol_table
-from compiler.exceptions import CompilerRuntimeError
+
 
 symbols = symbol_table.SymbolTable()
 
@@ -25,14 +22,9 @@ class InstructionList:
     def eval(self):
         ret = []
         for n in self:
-            if isinstance(n, ExitStatement):
-                return n
-
             res = n.eval()
 
-            if isinstance(res, ExitStatement):
-                return res
-            elif res is not None:
+            if res is not None:
                 ret.append(res)
 
         return ret

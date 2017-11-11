@@ -6,6 +6,12 @@ class CompilerError(Exception):
         return self.message
 
 
+class LexicalError(CompilerError):
+    def __init__(self, message, s):
+        self.args = (message,)
+        self.text = s
+
+
 class ParserSyntaxError(CompilerError):
     pass
 
@@ -20,9 +26,3 @@ class UnexpectedChar(CompilerError):
 
 class CompilerRuntimeError(CompilerError):
     pass
-
-
-class LexicalError(CompilerError):
-    def __init__(self, message, s):
-        self.args = (message,)
-        self.text = s

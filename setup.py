@@ -43,7 +43,7 @@ setup(
     packages=find_packages(exclude=['tests']),
     url='https://github.com/Comtom/compiler',
     license='',
-    author='Lucas Rodeles, Tomas Gonzalez Dowling',
+    author='Tomas Gonzalez Dowling',
     author_email='lucasrodeles@gmail.com, tomas@comtomtech.com',
     description='Code Language Compiler',
     long_description=long_description,

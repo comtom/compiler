@@ -6,7 +6,7 @@ import sys
 import os
 
 from compiler.lexical_analyzer import setup
-from compiler.syntax_analyzer import run_syntax_analyzer
+from compiler.grammar import run_syntax_analyzer
 
 
 DEBUG = os.getenv('DEBUG', False) == 'True'

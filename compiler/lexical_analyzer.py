@@ -20,15 +20,13 @@ tokens = [
     'LBRACK',
     'RBRACK',
     'STRING',
+    'NUM_INTEGER',
+    'NUM_LONGINTEGER',
     'COMMA',
     'NEWLINE',
-#    'LSQBRACK',
-#    'RSQBRACK',
-
     'PLUS',
     'MINUS',
     'MUL',
-
     'EQ',
     'NEQ',
     'GT',
@@ -48,8 +46,6 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACK = '{'
 t_RBRACK = '}'
-#t_LSQBRACK = r'\['
-#t_RSQBRACK = r'\]'
 t_EQ = '='
 t_NEQ = '!='
 t_GT = '>'
@@ -74,17 +70,15 @@ def t_IDENTIFIER(t):
     return t
 
 
-def t_NUM_INT(t):
+def t_NUM_INTEGER(t):
     r'_i(\d+)'
-    # ver de devolver string
     t.value = int(t.value)
 
     return t
 
 
-def t_NUM_LONG(t):
+def t_NUM_LONGINTEGER(t):
     r'_l(\d+)'
-    # sacar esta accion
     t.value = int(t.value)
 
     return t

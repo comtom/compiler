@@ -2,16 +2,13 @@ import operator
 from types import LambdaType
 from compiler.parser import BaseExpression
 from compiler.parser.identifier import Identifier
-from compiler.exceptions import CompilerRuntimeError, ParserSyntaxError
+from compiler.exceptions import CompilerRuntimeError
 
 
 class BinaryOperation(BaseExpression):
     __operations = {
         '+': operator.add,
-        '-': operator.sub,
         '*': operator.mul,
-        '/': operator.truediv,
-
         '>': operator.gt,
         '>=': operator.ge,
         '<': operator.lt,
@@ -46,23 +43,6 @@ class BinaryOperation(BaseExpression):
             raise CompilerRuntimeError("Error: No se ha podido realizar la operacion (%s: %s) %s (%s: %s)" % fmt)
 
 
-class UnaryOperation(BaseExpression):
-    __operations = {
-        '+': operator.pos,
-        '-': operator.neg
-    }
-
-    def __repr__(self):
-        return '<Unary operation: operation={0} expr={1}>'.format(self.operation, self.expr)
-
-    def __init__(self, operation, expr: BaseExpression):
-        self.operation = operation
-        self.expr = expr
-
-    def eval(self):
-        return self.__operations[self.operation](self.expr.eval())
-
-
 class Assignment(BaseExpression):
     def __init__(self, identifier: Identifier, val):
         self.identifier = identifier
@@ -73,4 +53,3 @@ class Assignment(BaseExpression):
 
     def eval(self):
         self.identifier.assign(self.val.eval())
-

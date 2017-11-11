@@ -1,5 +1,4 @@
 from compiler.parser import BaseExpression
-from compiler.parser.exit import ExitStatement
 
 
 class While(BaseExpression):
@@ -12,5 +11,4 @@ class While(BaseExpression):
 
     def eval(self):
         while self.condition.eval():
-            if isinstance(self.body.eval(), ExitStatement):
-                break
+            self.body.eval()

@@ -3,9 +3,9 @@ import ply.yacc as yacc
 from compiler.lexical_analyzer import *
 from compiler.exceptions import ParserSyntaxError
 from compiler.parser import InstructionList, BaseExpression, Primitive
-from compiler.parser.operations import Assignment, BinaryOperation, UnaryOperation
+from compiler.parser.operations import Assignment, BinaryOperation
 from compiler.parser.print_statement import PrintStatement
-from compiler.parser.identifier import Identifier
+from compiler.parser.identifier import Identifier, IdentifierList
 from compiler.parser.if_statement import If
 from compiler.parser.while_statement import While
 
@@ -15,8 +15,6 @@ disable_warnings = False
 precedence = (
     ('left', 'PLUS', 'MINUS'),
     ('right', 'MUL'),
-    #('right', 'UMINUS'),
-    #('right', 'UPLUS'),
 )
 
 
@@ -25,8 +23,29 @@ def p_statement(p):
     statement : identifier
               | expression
               | if_statement
+              | identifier LBRACK statement_list RBRACK
     '''
     p[0] = p[1]
+
+
+def p_type_definition(p):
+    '''
+    type_definition : NUM_INT identifier_list STMT_END
+              | NUM_LONG identifier_list STMT_END
+    '''
+    p[0] = p[1]
+
+
+def p_identifier_list(p):
+    '''
+    identifier_list : identifier COMMA identifier_list
+              | identifier
+    '''
+    if len(p) == 2:
+        p[0] = IdentifierList([p[1]])
+    else:
+        p[1].children.append(p[2])
+        p[0] = p[1]
 
 
 def p_while_loop(p):
@@ -53,6 +72,7 @@ def p_identifier(p):
 def p_expression(p):
     '''
     expression : primitive
+                | type_definition
     '''
     p[0] = p[1]
 
@@ -92,8 +112,8 @@ def p_statement_list(p):
 
 def p_primitive(p):
     '''
-    primitive : NUM_INT
-              | NUM_LONG
+    primitive : NUM_INTEGER
+              | NUM_LONGINTEGER
               | STRING
     '''
     if isinstance(p[1], BaseExpression):
@@ -116,21 +136,6 @@ def p_assign(p):
     p[0] = Assignment(p[1], p[3])
 
 
-# def p_comma_separated_expr(p):
-#     '''
-#     arguments : arguments COMMA expression
-#               | expression
-#               |
-#     '''
-#     if len(p) == 2:
-#         p[0] = InstructionList([p[1]])
-#     elif len(p) == 1:
-#         p[0] = InstructionList()
-#     else:
-#         p[1].children.append(p[3])
-#         p[0] = p[1]
-
-
 def p_binary_op(p):
     '''
     expression : expression PLUS expression STMT_END %prec PLUS
@@ -149,21 +154,6 @@ def p_boolean_operators(p):
             | LPAREN expression LTE expression RPAREN
     '''
     p[0] = BinaryOperation(p[1], p[3], p[2])
-
-
-# def p_unary_operation(p):
-#     '''
-#     expression : PLUS expression %prec UPLUS
-#     '''
-#     # MINUS expression %prec UMINUS
-#     p[0] = UnaryOperation(p[1], p[2])
-
-
-# def p_paren(p):
-#     '''
-#     expression : LPAREN expression RPAREN
-#     '''
-#     p[0] = p[2] if isinstance(p[2], BaseExpression) else Primitive(p[2])
 
 
 def p_error(p):

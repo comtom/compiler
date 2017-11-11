@@ -1,5 +1,5 @@
 Feature: Constants
-  This tests checks that constants comply language's rules ( between –2^15 and 2^(15–1) )
+  This tests checks that constants comply language's rules ( between -2^15 and 2^(15)-1 )
 
   Scenario Outline: Constants with prefix
     Given a mocked source <program>
