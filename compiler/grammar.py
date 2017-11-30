@@ -162,20 +162,10 @@ def p_boolean_operators(p):
 
 def p_error(p):
     if p is not None:
-        # TODO:   fix numero de linea
         raise ParserSyntaxError("Error de sintaxis en la linea %d, token no reconocido: '%s'" % (p.lineno, p.value))
 
     raise ParserSyntaxError("Error en la terminacion del archivo.")
 
 
 def run_syntax_analyzer(DEBUG, log=None):
-    while True:
-        token = lexer.token()
-
-        if token is None:
-            break
-        else:
-            if DEBUG:
-                print(str(token))
-
-    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc(debug=DEBUG, debuglog=log)
+    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc(debug=True, debuglog=log)
