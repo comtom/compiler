@@ -50,11 +50,6 @@ def p_identifier_list(p):
               | identifier
     '''
     p[0] = IdentifierList([p[1]])
-    # if len(p) == 2:
-    #     p[0] = IdentifierList([p[1]])
-    # else:
-    #     p[1].children.append(p[2])
-    #     p[0] = p[1]
 
 
 def p_while_loop(p):
@@ -167,6 +162,7 @@ def p_boolean_operators(p):
 
 def p_error(p):
     if p is not None:
+        # TODO:   fix numero de linea
         raise ParserSyntaxError("Error de sintaxis en la linea %d, token no reconocido: '%s'" % (p.lineno, p.value))
 
     raise ParserSyntaxError("Error en la terminacion del archivo.")

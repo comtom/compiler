@@ -21,13 +21,12 @@ def invoke_compiler(context):
     if hasattr(context, 'file'):
         with open(context.file, 'r') as f:
             context.source_file_content = f.read().replace('\n', '')
-
-        setup(context.source_file_content)
+        lexer = setup(context.source_file_content)
     else:
-        setup(context.program)
+        lexer = setup('programa{ %s }' % context.program)
 
     try:
-        context.output = run_syntax_analyzer(False)
+        context.output = run_syntax_analyzer(False).parse(context.program, lexer=lexer)
     except Exception as error:
         context.output = ''
         context.error = 'ERROR: %s' % str(error)
@@ -37,7 +36,7 @@ def invoke_compiler(context):
 def check_output(context):
     expect(context.source_file_content).to(equal(context.program_code))
     expect(context.error).to(be_none)
-    # hacer que contex.output sea stdout y no un objeto
+    # TODO: hacer que contex.output sea stdout y no un objeto
     # expect(context.tokens).to(equal(context.output))
 
 

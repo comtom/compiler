@@ -21,9 +21,8 @@ def main(source_file):
         run_syntax_analyzer(DEBUG, log).parse(input=source_file, debug=True, lexer=lexer)
     else:
         try:
-            res = run_syntax_analyzer(DEBUG, log).parse(source_file, lexer=lexer)
-            # for node in res.children:
-            #     node.eval()
+            run_syntax_analyzer(DEBUG, log).parse(source_file, lexer=lexer)
+
             return 0
         except Exception as error:
             sys.stderr.write('ERROR: %s' % str(error))
