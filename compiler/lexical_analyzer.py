@@ -64,7 +64,7 @@ def t_NEWLINE(t):
 
 
 def t_IDENTIFIER(t):
-    r'[\$_a-zA-Z]\w*'
+    r'[\$a-zA-Z]\w*'
     t.type = reserved.get(t.value, t.type)
 
     return t
@@ -72,14 +72,20 @@ def t_IDENTIFIER(t):
 
 def t_NUM_INTEGER(t):
     r'_i(\d+)'
-    t.value = int(t.value)
+    t.value = int(t.value[-2:])
+
+    if t.value > 32767 or t.value < -32768:
+        raise Exception('Constante entera fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 
 
 def t_NUM_LONGINTEGER(t):
     r'_l(\d+)'
-    t.value = int(t.value)
+    t.value = int(t.value[-2:])
+
+    if t.value > 4294967295 or t.value < -4294967296:
+        raise Exception('Constante long fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 
@@ -96,7 +102,8 @@ def t_error(t):
 
 
 def setup(source_file):
-    lexer.input(source_file)
+    lexer.input(str(source_file))
+    return lexer
 
 
 lexer = lexer_module.build()

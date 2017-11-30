@@ -1,9 +1,10 @@
-a := "hello world+
-as";
-print a;
+ejemplo{
+    print "algo";
 
-if a = "hello" {
-    print "YES";
-} else {
-    print "NO";
+    b := _i4294967295;
+    a := _l23423;
+
+    while (b = _l1231343243243242343432423) {
+        print "no";
+    }
 }

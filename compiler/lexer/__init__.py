@@ -156,34 +156,6 @@ def build(module=None, object=None, lextab='lextab', reflags=int(re.VERBOSE), no
     return lexobj
 
 
-def runmain(lexer=None, data=None):
-    if not data:
-        try:
-            filename = sys.argv[1]
-            f = open(filename)
-            data = f.read()
-            f.close()
-        except IndexError:
-            sys.stdout.write('Error. No se proporciono un archivo')
-            sys.exit(1)
-
-    if lexer:
-        _input = lexer.input
-    else:
-        _input = input
-    _input(data)
-    if lexer:
-        _token = lexer.token
-    else:
-        _token = token
-
-    while True:
-        tok = _token()
-        if not tok:
-            break
-        sys.stdout.write('(%s,%r,%d,%d)\n' % (tok.type, tok.value, tok.lineno, tok.lexpos))
-
-
 def TOKEN(r):
     def set_regex(f):
         if hasattr(r, '__call__'):

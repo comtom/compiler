@@ -39,3 +39,29 @@ def check_output(context):
     expect(context.error).to(be_none)
     # hacer que contex.output sea stdout y no un objeto
     # expect(context.tokens).to(equal(context.output))
+
+
+@then('compiler must accept the input')
+def accept_input_program(context):
+    pass
+
+
+@given('a mocked source {program}')
+def mocked_source(context, program):
+    context.error = None
+    context.program = program
+
+
+@then('compiler must remove comments and accept the input')
+def check_valid_comments(context):
+    expect(context.error).to(be_none)
+
+
+@then('compiler must not accept the input')
+def check_invalid_comments(context):
+    expect(context.error).to_not(be_none)
+
+
+@then('compiler must reject the input')
+def reject_input_program(context):
+    expect(context.error).to_not(be_none)

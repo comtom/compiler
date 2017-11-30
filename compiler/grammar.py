@@ -18,13 +18,21 @@ precedence = (
 )
 
 
+def p_program(p):
+    '''
+    program : identifier LBRACK statement_list RBRACK
+    '''
+    p[0] = p[1]
+
+
 def p_statement(p):
     '''
-    statement : identifier
-              | expression
+    statement : expression
               | if_statement
               | identifier LBRACK statement_list RBRACK
+              | type_definition
     '''
+    #identifier
     p[0] = p[1]
 
 
@@ -41,11 +49,12 @@ def p_identifier_list(p):
     identifier_list : identifier COMMA identifier_list
               | identifier
     '''
-    if len(p) == 2:
-        p[0] = IdentifierList([p[1]])
-    else:
-        p[1].children.append(p[2])
-        p[0] = p[1]
+    p[0] = IdentifierList([p[1]])
+    # if len(p) == 2:
+    #     p[0] = IdentifierList([p[1]])
+    # else:
+    #     p[1].children.append(p[2])
+    #     p[0] = p[1]
 
 
 def p_while_loop(p):
@@ -72,7 +81,7 @@ def p_identifier(p):
 def p_expression(p):
     '''
     expression : primitive
-                | type_definition
+               | identifier
     '''
     p[0] = p[1]
 
@@ -163,7 +172,7 @@ def p_error(p):
     raise ParserSyntaxError("Error en la terminacion del archivo.")
 
 
-def run_syntax_analyzer(DEBUG):
+def run_syntax_analyzer(DEBUG, log=None):
     while True:
         token = lexer.token()
 
@@ -173,4 +182,4 @@ def run_syntax_analyzer(DEBUG):
             if DEBUG:
                 print(str(token))
 
-    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc()
+    return yacc.yacc(errorlog=yacc.NullLogger()) if disable_warnings else yacc.yacc(debug=DEBUG, debuglog=log)
