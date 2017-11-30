@@ -71,21 +71,31 @@ def t_IDENTIFIER(t):
 
 
 def t_NUM_INTEGER(t):
-    r'_i(\d+)'
+    r'_i(-?\d+)'
     t.value = int(t.value[-2:])
 
     if t.value > 32767 or t.value < -32768:
-        raise Exception('Constante entera fuera de rango en linea %s' % t.lexer.lineno)
+        if t.value > 32767:
+            t.value = 32767
+        else:
+            t.value = -32768
+
+        print('Warning: Constante entera fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 
 
 def t_NUM_LONGINTEGER(t):
-    r'_l(\d+)'
+    r'_l(-?\d+)'
     t.value = int(t.value[-2:])
 
     if t.value > 4294967295 or t.value < -4294967296:
-        raise Exception('Constante long fuera de rango en linea %s' % t.lexer.lineno)
+        if t.value > 4294967295:
+            t.value = 4294967295
+        else:
+            t.value = -4294967296
+
+        print('Warning: Constante long fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 

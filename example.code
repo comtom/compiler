@@ -1,12 +1,12 @@
 ejemplo{
     print "algo";
 
-    b := _i4294967295;
-    a := _l23423;
+    b := _i-4294967298;
+    a := _l-23423;
 
     if (b = _l123343432423) {
         print "no";
-        print "yes"
+        print "yes";
         a := _l23423;
     }
 }
