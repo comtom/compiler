@@ -1,5 +1,6 @@
 from compiler import lexer as lexer_module
 from compiler.exceptions import UnexpectedChar
+from compiler import errors
 
 
 reserved = {
@@ -25,7 +26,6 @@ tokens = [
     'COMMA',
     'NEWLINE',
     'PLUS',
-    'MINUS',
     'MUL',
     'EQ',
     'NEQ',
@@ -37,7 +37,6 @@ tokens = [
 
 t_COMMA = ','
 t_PLUS = r'\+'
-t_MINUS = '-'
 t_MUL = r'\*'
 t_STMT_END = ';'
 t_EQUALS = ':='
@@ -80,7 +79,7 @@ def t_NUM_INTEGER(t):
         else:
             t.value = -32768
 
-        print('Warning: Constante entera fuera de rango en linea %s' % t.lexer.lineno)
+        errors.append('Warning: Constante entera fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 
@@ -95,7 +94,7 @@ def t_NUM_LONGINTEGER(t):
         else:
             t.value = -4294967296
 
-        print('Warning: Constante long fuera de rango en linea %s' % t.lexer.lineno)
+        errors.append('Warning: Constante long fuera de rango en linea %s' % t.lexer.lineno)
 
     return t
 
@@ -108,7 +107,7 @@ def t_STRING(t):
 
 
 def t_error(t):
-    raise UnexpectedChar("Caracter inesperado '%s' en linea %d" % (t.value[0], t.lineno))
+    errors.append("ERROR Lexico: Caracter inesperado '%s' en linea %d" % (t.value[0], t.lineno))
 
 
 def setup(source_file):

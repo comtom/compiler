@@ -4,6 +4,11 @@ from compiler import symbol_table
 symbols = symbol_table.SymbolTable()
 
 
+class BaseExpression:
+    def eval(self):
+        raise NotImplementedError()
+
+
 class InstructionList:
     def __init__(self, children=None):
         if children is None:
@@ -30,18 +35,6 @@ class InstructionList:
         return ret
 
 
-class BaseExpression:
-    def eval(self):
-        raise NotImplementedError()
-
-
-def full_eval(expr: BaseExpression):
-    while isinstance(expr, BaseExpression):
-        expr = expr.eval()
-
-    return expr
-
-
 class Primitive(BaseExpression):
     def __init__(self, value):
         self.value = value
@@ -51,3 +44,10 @@ class Primitive(BaseExpression):
 
     def eval(self):
         return self.value
+
+
+def full_eval(expr: BaseExpression):
+    while isinstance(expr, BaseExpression):
+        expr = expr.eval()
+
+    return expr

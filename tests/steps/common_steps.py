@@ -13,7 +13,7 @@ def filesource_exists(context, file):
 @given('loads mocked source to verify output')
 def load_mocked_source(context):
     context.tokens = "Token(PRINT,'print',2,1)Token(STRING,'hello world',2,7)Token(STMT_END,';',2,20)"
-    context.program_code = 'print "hello world";'
+    context.program_code = 'holamundo{    print "hello world";}'
 
 
 @when('the user invokes the compiler with the program as an argument')
@@ -29,7 +29,7 @@ def invoke_compiler(context):
         context.output = run_syntax_analyzer(False).parse(context.program, lexer=lexer)
     except Exception as error:
         context.output = ''
-        context.error = 'ERROR: %s' % str(error)
+        context.error = 'ERROR: %s' % type(error)
 
 
 @then('input program is equal to output')

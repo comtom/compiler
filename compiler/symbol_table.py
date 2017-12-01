@@ -1,4 +1,6 @@
+import json
 from compiler.exceptions import SymbolNotFound
+from compiler import errors
 
 
 class SymbolTable:
@@ -15,7 +17,10 @@ class SymbolTable:
         if sym in self.__table[self.__sym]:
             return self.__table[self.__sym][sym]
 
-        raise SymbolNotFound("Variable no definida '%s'" % sym)
+        errors.append("Error: Variable no definida '%s'" % sym)
 
     def set_sym(self, sym, val):
         self.__table[self.__sym][sym] = val
+
+    def __repr__(self):
+        return json.dumps(self.table())

@@ -1,5 +1,6 @@
 import ply.yacc as yacc
 
+from compiler import logger, errors
 from compiler.lexical_analyzer import *
 from compiler.exceptions import ParserSyntaxError
 from compiler.parser import InstructionList, BaseExpression, Primitive
@@ -11,11 +12,6 @@ from compiler.parser.while_statement import While
 
 
 disable_warnings = False
-
-precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('right', 'MUL'),
-)
 
 
 def p_program(p):
@@ -58,6 +54,8 @@ def p_while_loop(p):
     '''
     p[0] = While(p[2], p[4])
 
+    logger.debug('Se detecto WHILE en linea %s' % p.lexer.lineno)
+
 
 def p_print_statement(p):
     '''
@@ -87,6 +85,8 @@ def p_ifstatement(p):
     '''
     p[0] = If(p[2], p[4])
 
+    logger.debug('Se detecto IF en linea %s' % p.lexer.lineno)
+
 
 def p_ifstatement_else(p):
     '''
@@ -94,12 +94,16 @@ def p_ifstatement_else(p):
     '''
     p[0] = If(p[2], p[4], p[8])
 
+    logger.debug('Se detecto IF con ELSE en linea %s' % p.lexer.lineno)
+
 
 def p_ifstatement_else_if(p):
     '''
     if_statement : IF expression LBRACK statement_list RBRACK ELSE if_statement
     '''
     p[0] = If(p[2], p[4], p[7])
+
+    logger.debug('Se detecto IF con ELSE IF en linea %s' % p.lexer.lineno)
 
 
 def p_statement_list(p):
@@ -132,6 +136,8 @@ def p_assignable(p):
     '''
     p[0] = p[1]
 
+    logger.debug('Se detecto ASIGNACION en linea %s' % p.lexer.lineno)
+
 
 def p_assign(p):
     '''
@@ -142,8 +148,8 @@ def p_assign(p):
 
 def p_binary_op(p):
     '''
-    expression : expression PLUS expression STMT_END %prec PLUS
-            | expression MUL expression STMT_END %prec MUL
+    expression : expression PLUS expression STMT_END
+            | expression MUL expression STMT_END
     '''
     p[0] = BinaryOperation(p[1], p[3], p[2])
 
@@ -162,9 +168,9 @@ def p_boolean_operators(p):
 
 def p_error(p):
     if p is not None:
-        raise ParserSyntaxError("Error de sintaxis en la linea %d, token no reconocido: '%s'" % (p.lineno, p.value))
-
-    raise ParserSyntaxError("Error en la terminacion del archivo.")
+        errors.append("ERROR sintactico en la linea %d, token no reconocido: '%s'" % (p.lineno, p.value))
+    else:
+        errors.append("Error sintactico en la terminacion del archivo.")
 
 
 def run_syntax_analyzer(DEBUG, log=None):

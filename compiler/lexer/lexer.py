@@ -3,12 +3,16 @@ import sys
 import re
 import types
 import copy
+
 from compiler.exceptions import LexicalError
 from compiler.lexer.token import AToken
+from compiler import lexical_analyzer
+from compiler.parser import symbols
 
 
 StringTypes = (str, bytes)
 _is_identifier = re.compile(r'^[a-zA-Z0-9_]+$')
+tokens = []
 
 
 class Lexer:
@@ -200,6 +204,12 @@ class Lexer:
                 tok.lexpos = lexpos
                 i = m.lastindex
                 func, tok.type = lexindexfunc[i]
+
+                if tok.type is not None:
+                    tokens.append(str(tok))
+
+                    if tok.value not in list(lexical_analyzer.reserved.keys())+ ['\n', ', ', '\+', '\*', ';', ':=', '\s+', '(', ')', '{', '}', '=', '!=', '>', '>=', '<', '<=', '&&.+']:
+                        symbols.set_sym(tok.value, tok.lineno)
 
                 if not func:
                     if tok.type:

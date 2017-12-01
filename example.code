@@ -1,4 +1,8 @@
 ejemplo{
+    integer b;
+    longint a;
+    && algo asdsad
+
     print "algo";
 
     b := _i-4294967298;
@@ -8,13 +12,15 @@ ejemplo{
         print "no";
         print "yes";
         a := _l23423;
-    }
-
-    if ( a = b ) {
-        while (a = b) {
-            print "o";
+        while ( a = b ) {
+           print "o";
         }
     }
 
+    if ( a = b ) {
+           print "o";
+    }
+
     c := _l22;
+
 }
